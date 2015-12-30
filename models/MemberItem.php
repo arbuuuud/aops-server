@@ -22,7 +22,7 @@ class MemberItem
 		    exit();
 		}
 
-		$sql	= "SELECT * FROM members WHERE member_id=1";
+		$sql	= "SELECT * FROM members WHERE member_id=".$id;
 		$result = $conn->query($sql);
 		$row = $result->fetch_object();
 		$member = new MemberItem();
@@ -103,7 +103,6 @@ class MemberItem
 	}
 	
     public function getchildshtml(){
-    	error_log("BISA NIH");
     	return $this->generateList($this);
     }
     private function generateList($member){
@@ -157,6 +156,21 @@ class MemberItem
 		return $members;
     }
 	
+	public function getMemberSelect($member){
+		$memberArray = array();
+		array_push($memberArray, array(
+			'member_id' => $member->member_id,
+			'name' => $member->name
+		));
+		$members = $member->members();
+		if(count($members)){
+			foreach ($members as $mem) {
+				$tempMembers = $this->getMemberSelect($mem);
+				$memberArray = array_merge($memberArray,$tempMembers);
+			}
+		}
+		return $memberArray;
+	}
 	private static function _checkIfUserExists($username, $userpass)
 	{
 		error_log($username);

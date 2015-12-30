@@ -16,6 +16,13 @@ class Member
 		//return the todo item in array format
 		return $memberItem;
 	}
+	public function getmemberselectAction(){
+		if(isset($this->_params['member_id'])){
+			$memberItem = MemberItem::find($this->_params['member_id']);
+			return $memberItem->getMemberSelect($memberItem);
+		}
+		return [];
+	}
 	public function getmemberchildsAction(){
 		if(isset($this->_params['member_id'])){
 
