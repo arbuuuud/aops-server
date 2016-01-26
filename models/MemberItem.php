@@ -38,6 +38,34 @@ class MemberItem
 		return $member;
 
 	}
+	public static function getmemberbyusernameAction($username){
+		$db_server = "localhost";
+		$db_user = "root";
+		$db_password = "";
+		$db_name = "aops-api";
+
+		$conn = new mysqli($db_server, $db_user, $db_password, $db_name);
+		// Check connection
+		if (mysqli_connect_errno()) {
+		    printf("Connect failed: %s\n", mysqli_connect_error());
+		    exit();
+		}
+
+		$sql	= "SELECT * FROM members WHERE username='".$username."'";//.$username;
+		$result = $conn->query($sql);
+		$row = $result->fetch_object();
+		$member = new MemberItem();
+    	$member->member_id = $row->member_id;
+		$member->username = $row->username;
+		$member->name = $row->name;
+		$member->tgllahir = $row->tgllahir;
+		$member->tglaplikasi = $row->tglaplikasi;
+		$member->sponsor_id = $row->sponsor_id;
+		$member->introducer_id = $row->introducer_id;
+
+		$conn->close();
+		return $member;
+	}
 	public static function getmemberAction($username, $userpass)
 	{
 		self::_checkIfUserExists($username, $userpass);
@@ -104,6 +132,27 @@ class MemberItem
 	
     public function getchildshtml(){
     	return $this->generateList($this);
+    }
+    public function getTree(){
+    	return $this->getAllDownline(0,array(),$this);
+    }
+    private function getAllDownline($depth,$members,$member){
+    	$depth++;
+    	$mem = new stdClass();
+    	$mem->id = $member->member_id;
+    	$mem->name = $member->name;
+    	$mem->parent = $member->introducer_id;
+    	array_push($members,$mem);
+    	$membersTemps = $member->members();
+    	if(count($membersTemps)>0 && $depth<3){
+    		foreach ($membersTemps as $childMember) {
+    			$members =  $this->getAllDownline($depth,$members,$childMember);
+    	// 		if(count($child)){
+					// $members = array_merge($members,$child);
+    	// 		}
+    		}
+    	}
+    	return $members;
     }
     private function generateList($member){
 

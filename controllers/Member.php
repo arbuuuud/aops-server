@@ -23,6 +23,15 @@ class Member
 		}
 		return [];
 	}
+	public function getmemberbyusernameAction(){
+		if(isset($this->_params['username'])){
+
+			$memberItem = MemberItem::getmemberbyusernameAction($this->_params['username']);
+			//return the todo item in array format
+			return $memberItem;
+		}
+		return '';
+	}
 	public function getmemberchildsAction(){
 		if(isset($this->_params['member_id'])){
 
@@ -32,6 +41,16 @@ class Member
 			return $html;
 		}
 		return '';
+	}
+	public function getalldownlineAction(){
+		if(isset($this->_params['member_id'])){
+
+			$memberItem = MemberItem::find($this->_params['member_id']);
+			$downlineArray = $memberItem->getTree();
+			//return the todo item in array format
+			return $downlineArray;
+		}
+		return array();
 	}
 
 }
