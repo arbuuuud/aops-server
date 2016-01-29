@@ -9,13 +9,15 @@ class MemberItem
 	public $sponsor_id;
 	public $introducer_id;
 
+	const DB_SERVER = "localhost";      
+	const DB_USER = "root";      
+	const DB_PASSWORD = "";      
+	const DB_NAME = "aops-api";      	
+		
 	public static function find($id){
-		$db_server = "localhost";
-		$db_user = "root";
-		$db_password = "";
-		$db_name = "aops-api";
-
-		$conn = new mysqli($db_server, $db_user, $db_password, $db_name);
+		
+		$conn = new mysqli(MemberItem::DB_SERVER, MemberItem::DB_USER, MemberItem::DB_PASSWORD, MemberItem::DB_NAME);
+		// $conn = new mysqli($db_server, $db_user, $db_password, $db_name);
 		// Check connection
 		if (mysqli_connect_errno()) {
 		    printf("Connect failed: %s\n", mysqli_connect_error());
@@ -39,12 +41,10 @@ class MemberItem
 
 	}
 	public static function getmemberbyusernameAction($username){
-		$db_server = "localhost";
-		$db_user = "root";
-		$db_password = "";
-		$db_name = "aops-api";
-
-		$conn = new mysqli($db_server, $db_user, $db_password, $db_name);
+			
+		$conn = new mysqli(MemberItem::DB_SERVER, MemberItem::DB_USER, MemberItem::DB_PASSWORD, MemberItem::DB_NAME);
+		
+		// $conn = new mysqli($db_server, $db_user, $db_password, $db_name);
 		// Check connection
 		if (mysqli_connect_errno()) {
 		    printf("Connect failed: %s\n", mysqli_connect_error());
@@ -81,12 +81,9 @@ class MemberItem
 	
 		// Create connection
 		
-		$db_server = "localhost";
-		$db_user = "root";
-		$db_password = "";
-		$db_name = "aops-api";
-
-		$conn = new mysqli($db_server, $db_user, $db_password, $db_name);// Check connection
+		$conn = new mysqli(MemberItem::DB_SERVER, MemberItem::DB_USER, MemberItem::DB_PASSWORD, MemberItem::DB_NAME);
+		
+		//$conn = new mysqli($db_server, $db_user, $db_password, $db_name);// Check connection
 		if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 		} 
@@ -175,8 +172,9 @@ class MemberItem
 		$db_user = "root";
 		$db_password = "";
 		$db_name = "aops-api";
-
-		$conn = new mysqli($db_server, $db_user, $db_password, $db_name);// Check connection
+		$conn = new mysqli(MemberItem::DB_SERVER, MemberItem::DB_USER, MemberItem::DB_PASSWORD, MemberItem::DB_NAME);
+		
+		//$conn = new mysqli($db_server, $db_user, $db_password, $db_name);// Check connection
 		// Check connection
 		if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
